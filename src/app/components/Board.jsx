@@ -47,8 +47,8 @@ export default function Board() {
 
       <StatusMessage loading={loading} error={error} isEmpty={!loading && !error && visibleTickets.length === 0} />
 
-      <TicketList tickets={visibleTickets} queue={queue} onAddToQueue={addToQueue} />
-
+    <TicketList tickets={visibleTickets} queue={queue} onAddToQueue={addToQueue} />
+    
       <MyQueueSummary
         tickets={tickets}
         queue={queue}

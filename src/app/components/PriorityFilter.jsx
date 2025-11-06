@@ -5,13 +5,13 @@ export default function PriorityFilter({ value, onChange }) {
     <select
       value={value}
       onChange={(e) => onChange(e.target.value)}
-      className="border px-2 py-1"
+      className="border px-2 py-1 rounded"
     >
-      <option>All</option>
-      <option>Low</option>
-      <option>Medium</option>
-      <option>High</option>
-      <option>Critical</option>
+      <option value="All">All</option>
+      <option value="Low">Low</option>
+      <option value="Medium">Medium</option>
+      <option value="High">High</option>
+      <option value="Critical">Critical</option>
     </select>
   );
 }
