@@ -1,8 +1,9 @@
-import Board from './components/Board';
-export default function Homepage(){
+import Board from './components/Board'; 
+
+export default function HomePage() {
   return (
-    <main className='mx-auto-w-6xl-p-6'>
-      <h1 className='text-3xl dont-bold mb-4'>Helpdest Ticket Board</h1>
+    <main className="mx-auto max-w-6xl p-6">
+      <h1 className="text-3xl font-bold mb-4">Helpdesk Ticket Board</h1>
       <Board />
     </main>
   );

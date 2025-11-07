@@ -17,6 +17,68 @@ export default function Board() {
   const [search, setSearch] = useState('');
   const [queue, setQueue] = useState({});
 
+  useEffect(() => {
+  const fetchTickets = async () => {
+    setLoading(true);
+    setError(false);
+
+    try {
+      const res = await fetch('/api/tickets'); 
+      if (!res.ok) throw new Error('Network response not ok');
+      const data = await res.json();
+      setTickets(data); 
+    } catch (err) {
+      console.error(err);
+      setError(true);
+    } finally {
+      setLoading(false); 
+    }
+  };
+
+  fetchTickets();
+}, []);
+useEffect(() => {
+    const statuses = ['Open', 'In Progress', 'On Hold', 'Resolved'];
+    const priorities = ['Low', 'Medium', 'High', 'Critical'];
+
+    const interval = setInterval(() => {
+      setTickets((prevTickets) => {
+        if (prevTickets.length === 0) return prevTickets;
+
+        const index = Math.floor(Math.random() * prevTickets.length);
+        const ticket = prevTickets[index];
+        const changeStatus = Math.random() < 0.5;
+
+        let updatedTicket = { ...ticket, updatedAt: new Date().toISOString() };
+
+        if (changeStatus) {
+          const newStatus = statuses.filter((s) => s !== ticket.status)[
+            Math.floor(Math.random() * (statuses.length - 1))
+          ];
+          updatedTicket.status = newStatus;
+        } else {
+          const newPriority = priorities.filter((p) => p !== ticket.priority)[
+            Math.floor(Math.random() * (priorities.length - 1))
+          ];
+          updatedTicket.priority = newPriority;
+        }
+
+        const newTickets = [...prevTickets];
+        newTickets[index] = updatedTicket;
+        return newTickets;
+      });
+    }, Math.random() * 4000 + 6000);
+
+    return () => clearInterval(interval);
+  }, []);
+
+
+
+
+
+
+
+
   const visibleTickets = tickets.filter((ticket) => {
     const matchesStatus = statusFilter === 'All' || ticket.status === statusFilter;
     const matchesPriority = priorityFilter === 'All' || ticket.priority === priorityFilter;
@@ -48,7 +110,7 @@ export default function Board() {
       <StatusMessage loading={loading} error={error} isEmpty={!loading && !error && visibleTickets.length === 0} />
 
     <TicketList tickets={visibleTickets} queue={queue} onAddToQueue={addToQueue} />
-    
+
       <MyQueueSummary
         tickets={tickets}
         queue={queue}

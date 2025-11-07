@@ -7,7 +7,7 @@ export default function TicketList({ tickets, queue, onAddToQueue }) {
     <ul className="space-y-4">
       {tickets.map((ticket) => (
         <TicketCard
-          key={ticket.id}           // stable key!
+          key={ticket.id}         
           ticket={ticket}
           inQueue={!!queue[ticket.id]}
           onAddToQueue={onAddToQueue}
